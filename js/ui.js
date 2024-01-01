@@ -20,6 +20,7 @@ let ui = {
 	$totalPages: document.getElementById('total-pages'),
 	$prevPage: document.getElementById('prev-page'),
 	$nextPage: document.getElementById('next-page'),
+	$toggleWords: document.getElementById('toggle-words'),
 
 	init: function () {
 		this.setupEvents();
@@ -41,6 +42,7 @@ let ui = {
 		this.$close.addEventListener('click', this.closeList.bind(this), false);
 		this.$prevPage.addEventListener('click', this.prevPage.bind(this), false);
 		this.$nextPage.addEventListener('click', this.nextPage.bind(this), false);
+		this.$toggleWords.addEventListener('click', this.toggleWords.bind(this), false);
 	},
 
 	//Form methods
@@ -123,6 +125,8 @@ let ui = {
 
 		this.page = clamp(targetPage, lastPage, 1); //Clamp page
 
+		this.$startPage.value = this.page; //Set start page to current page number
+
 		let start = (this.page - 1) * this.getPerPage(),
 			end = start + this.getPerPage();
 
@@ -149,5 +153,8 @@ let ui = {
 	},
 	nextPage: function () {
 		this.setPage(this.page + 1)
+	},
+	toggleWords: function () {
+		this.$wordList.classList.toggle('hide-words');
 	},
 };

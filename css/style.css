@@ -269,6 +269,11 @@ footer a {
 	margin: 0 auto;
 }
 
+.word-list.hide-words .words .word {
+	filter: blur(10px);
+	font-weight: bold;
+}
+
 .word-list .words .number {
 	opacity: 0.4;
 	position: absolute;
@@ -294,10 +299,26 @@ footer a {
 }
 
 .word-list nav button {
-	flex: 1;
+	flex: 1 1 max-content;
 	padding: 0.5em;
 	border: 1px solid #9e876d61;
 	border-radius: 3px;
 	background: none;
 	color: #9e876d;
+}
+
+.word-list.hide-words .toggle-words span:first-of-type,
+.word-list .toggle-words span:last-of-type {
+	display: none;
+}
+
+.word-list.hide-words .toggle-words span:last-of-type {
+	display: inline;
+}
+
+@media (max-width: 360px) {
+	.word-list .prev-page span,
+	.word-list .next-page span {
+		display: none;
+	}
 }
