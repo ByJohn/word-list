@@ -1,0 +1,8 @@
+word,type,tags
+Book,Concrete,
+Car,Concrete,
+Justice,Abstract,
+London,Proper,Place
+Love,Abstract,Emotion
+Tear,Concrete,
+Tree,Concrete,"Nature, Large"

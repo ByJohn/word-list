@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Word List</title>
+
+	<meta name="description" content="A tool to get lists of common words, ordered in a reproducibly-random way."/>
+	<meta name="theme-color" content="#e7dfd6">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div id="word-list" class="word-list">
+		<button id="close" class="close">&times;</button>
+
+		<div class="word-list-page-title">Page <strong id="page-number">#</strong> or <strong id="total-pages">#</strong></div>
+
+		<div id="word-list-inner" class="word-list-inner"></div>
+
+		<nav>
+			<button id="prev-page" class="prev-page">&larr; Previous Page</button>
+
+			<button id="next-page" class="next-page">Next Page &rarr;</button>
+		</nav>
+	</div>
+
+	<div class="page wrapper">
+		<h1>Word List <a href="https://www.johnevans.uk/" target="_blank">By John</a></h1>
+		<h2>Please may I have a word&hellip;</h2>
+		<p class="intro">Generate lists of common words, ordered in a way that is <em title="The randomisation of the word order is deterministic. The same form inputs will products the same output word order.">reproducibly-random</em>.</p>
+
+		<form action="" method="get" id="form">
+			<fieldset class="lang-select">
+				<legend>Language</legend>
+
+				<label>
+					<input type="checkbox" name="lang" value="en" checked><span>English (Common)</span>
+				</label>
+			</fieldset>
+
+			<fieldset class="class-select">
+				<legend>Class</legend>
+
+				<label>
+					<input type="checkbox" name="class" value="nouns" checked><span>Nouns</span>
+				</label>
+			</fieldset>
+
+			<fieldset class="list-select">
+				<legend>List</legend>
+
+				<label>
+					<span>Words Per Page</span>
+					<input type="number" name="per_page" id="per-page" min="1" value="5" required>
+				</label>
+
+				<label>
+					<span>Start Page</span>
+					<input type="number" name="page" id="start-page" min="1" value="1" required>
+				</label>
+
+				<label>
+					<span>Random Seed</span>
+					<input type="text" name="seed" id="seed" value="literally anything">
+				</label>
+			</fieldset>
+
+			<div id="pre-results" class="pre-results">
+				Randomised <span class="count">#</span> words over <span class="pages">#</span> pages.
+			</div>
+
+			<button type="submit" id="submit" class="submit">Show Words</button>
+		</form>
+	</div>
+
+	<template id="word-list-page">
+		<ol class="words">%words%</ol>
+	</template>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="js/words.js"></script>
+	<script src="js/ui.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
