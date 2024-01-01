@@ -141,6 +141,8 @@ let ui = {
 		this.$wordListInner.innerHTML = getTemplateString('word-list-page', {
 			words: wordsHtml,
 		});
+
+		this.$wordListInner.scrollTop = 0; //Scroll the new page to the top
 	},
 	prevPage: function () {
 		this.setPage(this.page - 1)
