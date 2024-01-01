@@ -17,6 +17,7 @@ let words = {
 				Papa.parse('words/' + lang + '/' + wordClass + '.csv', {
 					download: true,
 					header: true,
+					skipEmptyLines: true,
 					complete: results => {
 						if (!results.data || !Array.isArray(results.data)) return resolve([]); //Return empty array early
 
