@@ -32,52 +32,58 @@
 	</div>
 
 	<div class="page wrapper">
-		<h1>Word List <a href="https://www.johnevans.uk/" target="_blank">By John</a></h1>
-		<h2>Please may I have a word&hellip;</h2>
-		<p class="intro">Generate lists of common words, ordered in a way that is <em title="The randomisation of the word order is deterministic. The same form inputs will produce the same output word order.">reproducibly-random</em>.</p>
+		<header>
+			<h1>Word List <a href="https://www.johnevans.uk/" target="_blank">By John</a></h1>
+			<h2>Please may I have a word&hellip;</h2>
+			<p class="intro">Generate lists of common words, ordered in a way that is <em title="The randomisation of the word order is deterministic. The same form inputs will produce the same output word order.">reproducibly-random</em>.</p>
+		</header>
 
-		<form action="" method="get" id="form">
-			<fieldset class="lang-select">
-				<legend>Language</legend>
+		<main>
+			<form action="" method="get" id="form">
+				<fieldset class="lang-select">
+					<legend>Language</legend>
 
-				<label>
-					<input type="checkbox" name="lang" value="en" checked><span>English (Common)</span>
-				</label>
-			</fieldset>
+					<label>
+						<input type="checkbox" name="lang" value="en" checked><span>English (Common)</span>
+					</label>
+				</fieldset>
 
-			<fieldset class="class-select">
-				<legend>Class</legend>
+				<fieldset class="class-select">
+					<legend>Class</legend>
 
-				<label>
-					<input type="checkbox" name="class" value="nouns" checked><span>Nouns</span>
-				</label>
-			</fieldset>
+					<label>
+						<input type="checkbox" name="class" value="nouns" checked><span>Nouns</span>
+					</label>
+				</fieldset>
 
-			<fieldset class="list-select">
-				<legend>List</legend>
+				<fieldset class="list-select">
+					<legend>Options</legend>
 
-				<label>
-					<span>Words Per Page</span>
-					<input type="number" name="per_page" id="per-page" min="1" value="5" required>
-				</label>
+					<label>
+						<span>Words Per Page</span>
+						<input type="number" name="per_page" id="per-page" min="1" value="5" required>
+					</label>
 
-				<label>
-					<span>Start Page</span>
-					<input type="number" name="page" id="start-page" min="1" value="1" required>
-				</label>
+					<label>
+						<span>Start Page</span>
+						<input type="number" name="page" id="start-page" min="1" value="1" required>
+					</label>
 
-				<label>
-					<span>Random Seed</span>
-					<input type="text" name="seed" id="seed" value="literally anything">
-				</label>
-			</fieldset>
+					<label>
+						<span>Random Seed</span>
+						<input type="text" name="seed" id="seed" value="literally anything">
+					</label>
+				</fieldset>
 
-			<div id="pre-results" class="pre-results">
-				Randomised <span class="count">#</span> words over <span class="pages">#</span> pages.
-			</div>
+				<div id="pre-results" class="pre-results">
+					Randomised <span class="count">#</span> words over <span class="pages">#</span> pages.
+				</div>
 
-			<button type="submit" id="submit" class="submit">Show Words</button>
-		</form>
+				<button type="submit" id="submit" class="submit">Show Words</button>
+			</form>
+		</main>
+
+		<footer><a href="https://www.johnevans.uk/" target="_blank">By John</a> | View raw word lists and contribute words via <a href="https://github.com/ByJohn/word-list" target="_blank">GitHub</a></footer>
 	</div>
 
 	<template id="word-list-page">

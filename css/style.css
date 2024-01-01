@@ -25,6 +25,11 @@ body {
 }
 
 .page {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 3em;
+	min-height: 100vh;
 	padding: 2em 0;
 }
 
@@ -75,25 +80,32 @@ h2 {
 	line-height: 1;
 }
 
+.intro {
+	margin-bottom: 0;
+}
+
 form {
 	display: flex;
 	flex-direction: column;
-	gap: 1em;
-	margin-top: 3em;
+	gap: 1.5em;
+	padding: 2em;
+	border-radius: 3px;
+	box-shadow: 0 40px 60px #cfbfaf;
+	border: 1px solid #eee8e2;
+	/* background-color: #d3cdc6; */
 }
 
 fieldset {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
-	padding: 0.7em 1em 1em;
-	border: 1px solid rgba(0,0,0,0.1);
-	border: 1px solid #fff;
-	border-radius: 3px;
+	padding: 0 0 1.9em;
+	border: none;
+	border-bottom: 1px solid #d5c5b2;
 }
 
 legend {
-	padding: 0 0.5em;
+	margin-bottom: 0.5em;
 	font-weight: bold;
 }
 
@@ -177,6 +189,16 @@ legend {
 @keyframes spin {
 	0% { transform: rotate(0); }
 	100% { transform: rotate(360deg); }
+}
+
+footer {
+	font-weight: 300;
+	text-align: center;
+	font-size: 0.85em;
+}
+
+footer a {
+	color: inherit;
 }
 
 
