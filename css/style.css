@@ -109,30 +109,59 @@ legend {
 	font-weight: bold;
 }
 
-.lang-select label,
-.class-select label {
-	padding: 0.5em;
-	border-radius: 3px;
-	background-color: #fff;
+.checkboxes label {
 	cursor: pointer;
 }
 
-.lang-select label span,
-.class-select label span {
-	display: inline-block;
-	margin-left: 0.3em;
+.checkboxes label input {
+	display: none;
 }
 
-.list-select label {
+.checkboxes label span {
+	display: block;
+	position: relative;
+	padding: 0.5em;
+	border-radius: 3px;
+	background-color: #fff;
+}
+
+.checkboxes label span::before {
+	content: '';
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	margin-right: 0.2em;
+	border: 1px solid #b9946c;
+	border-radius: 3px;
+}
+
+.checkboxes label input:checked + span::before {
+	background-color: #b9946c;
+}
+
+.checkboxes label input:checked + span::after {
+	content: '';
+	position: absolute;
+	top: calc(0.5em + 6px);
+	left: calc(0.5em + 4px);
+	border: 2px solid #fff;
+	width: 5px;
+	height: 8px;
+	border-top: none;
+	border-left: none;
+	transform: rotate(45deg);
+}
+
+.list-options label {
 	flex: 1 1 9em;
 }
 
-.list-select label span {
+.list-options label span {
 	display: block;
 	margin-bottom: 0.3em;
 }
 
-.list-select input {
+.list-options input {
 	width: 100%;
 	max-width: 100%;
 	padding: 0.4em 0.5em;
@@ -140,7 +169,7 @@ legend {
 	border-radius: 3px;
 }
 
-.list-select input[name="seed"] {
+.list-options input[name="seed"] {
 	text-transform: uppercase;
 }
 
