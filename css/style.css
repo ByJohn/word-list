@@ -355,6 +355,11 @@ footer a {
 	color: #9e876d;
 }
 
+.word-list.hide-words .toggle-words {
+	border-color: #9e876d;
+	box-shadow: 0 0 0 1px #9e876d;
+}
+
 .word-list.hide-words .toggle-words span:first-of-type,
 .word-list .toggle-words span:last-of-type {
 	display: none;
