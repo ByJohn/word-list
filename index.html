@@ -42,41 +42,41 @@
 
 		<main>
 			<form action="" method="get" id="form">
-				<fieldset class="lang-select checkboxes">
-					<legend>Language</legend>
+				<div class="languages">
+					<fieldset class="checkboxes">
+						<legend>English (Common)</legend>
 
-					<label>
-						<input type="checkbox" name="lang" value="en" checked><span>English (Common)</span>
-					</label>
+						<label>
+							<input type="checkbox" name="csv" value="en/nouns" checked><span>Nouns</span>
+						</label>
 
-					<label>
-						<input type="checkbox" name="lang" value="en-gb"><span>English (UK)</span>
-					</label>
+						<label>
+							<input type="checkbox" name="csv" value="en/verbs"><span>Verbs</span>
+						</label>
 
-					<label>
-						<input type="checkbox" name="lang" value="en-us"><span>English (US)</span>
-					</label>
-				</fieldset>
+						<label>
+							<input type="checkbox" name="csv" value="en/adjectives"><span>Adjectives</span>
+						</label>
+					</fieldset>
 
-				<fieldset class="class-select checkboxes">
-					<legend>Class</legend>
+					<fieldset class="checkboxes">
+						<legend>English (UK)</legend>
 
-					<label>
-						<input type="checkbox" name="class" value="nouns" checked><span>Nouns</span>
-					</label>
+						<label>
+							<input type="checkbox" name="csv-6" value="en-gb/nouns"><span>Nouns</span>
+						</label>
+					</fieldset>
 
-					<label>
-						<input type="checkbox" name="class" value="verbs"><span>Verbs</span>
-					</label>
+					<fieldset class="checkboxes">
+						<legend>English (US)</legend>
 
-					<label>
-						<input type="checkbox" name="class" value="adjectives"><span>Adjectives</span>
-					</label>
-				</fieldset>
+						<label>
+							<input type="checkbox" name="csv" value="en-us/nouns"><span>Nouns</span>
+						</label>
+					</fieldset>
+				</div>
 
 				<fieldset class="list-options">
-					<legend>Options</legend>
-
 					<label>
 						<span>Words Per Page</span>
 						<input type="number" name="per_page" id="per-page" min="1" value="5" required>

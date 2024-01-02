@@ -5,27 +5,23 @@ let words = {
 	newListLatestFulfilmentToken: null,
 	test: 1,
 
-	loadWords: function (lang, wordClass) {
+	loadWords: function (csv) {
 		return new Promise((resolve, reject) => {
 			//Check cache
-			if (this.wordCache.hasOwnProperty(lang) && this.wordCache[lang].hasOwnProperty(wordClass)) {
-				return resolve(this.wordCache[lang][wordClass]); //Return early from cache
+			if (this.wordCache.hasOwnProperty(csv)) {
+				return resolve(this.wordCache[csv]); //Return early from cache
 			}
 
 			//Parse CSV
 			try {
-				Papa.parse('words/' + lang + '/' + wordClass + '.csv', {
+				Papa.parse('words/' + csv + '.csv', {
 					download: true,
 					header: true,
 					skipEmptyLines: true,
 					complete: results => {
 						if (!results.data || !Array.isArray(results.data)) return resolve([]); //Return empty array early
 
-						if (!this.wordCache.hasOwnProperty(lang)) {
-							this.wordCache[lang] = {}; //Create cache parent
-						}
-
-						this.wordCache[lang][wordClass] = results.data; //Save to cache
+						this.wordCache[csv] = results.data; //Save to cache
 
 						resolve(results.data);
 					},
@@ -44,8 +40,7 @@ let words = {
 
 			let defaultArgs = {
 				fulfilmentToken: 0,
-				langs: [],
-				classes: [],
+				csvs: [],
 				seed: '',
 			};
 
@@ -56,10 +51,8 @@ let words = {
 
 			let promises = [];
 
-			args.langs.forEach(lang => {
-				args.classes.forEach(wordClass => {
-					promises.push(this.loadWords(lang, wordClass));
-				});
+			args.csvs.forEach(csv => {
+				promises.push(this.loadWords(csv));
 			});
 
 			Promise.allSettled(promises).then(results => {

@@ -1,9 +1,7 @@
 //UI
 let ui = {
 	$form: document.getElementById('form'),
-	$checkboxes: document.querySelectorAll('#form input[type="checkbox"]'),
-	$langs: document.querySelectorAll('#form input[name="lang"]'),
-	$classes: document.querySelectorAll('#form input[name="class"]'),
+	$csvs: document.querySelectorAll('#form input[name="csv"]'),
 	$textFields: document.querySelectorAll('#form input[type="text"], #form input[type="number"]'),
 	$perPage: document.getElementById('per-page'),
 	$startPage: document.getElementById('start-page'),
@@ -29,8 +27,8 @@ let ui = {
 	setupEvents: function () {
 		this.$form.addEventListener('submit', this.formSubmitted.bind(this), false);
 
-		this.$checkboxes.forEach($checkbox => {
-			$checkbox.addEventListener('change', debounce(this.refreshForm.bind(this), 200), false);
+		this.$csvs.forEach($csv => {
+			$csv.addEventListener('change', debounce(this.refreshForm.bind(this), 200), false);
 		});
 
 		this.$perPage.addEventListener('keyup', this.updatePreResults.bind(this), false);
@@ -62,8 +60,7 @@ let ui = {
 		let fulfilmentToken = Date.now(),
 			args = {
 				fulfilmentToken: fulfilmentToken,
-				langs: this.getCheckedValues(this.$langs),
-				classes: this.getCheckedValues(this.$classes),
+				csvs: this.getCheckedValues(this.$csvs),
 				seed: this.getSeed(),
 			};
 

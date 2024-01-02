@@ -99,14 +99,36 @@ fieldset {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
-	padding: 0 0 1.9em;
+	padding: 0;
 	border: none;
-	border-bottom: 1px solid #d5c5b2;
 }
 
 legend {
 	margin-bottom: 0.5em;
 	font-weight: bold;
+}
+
+.languages {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+}
+
+.languages fieldset {
+	flex: 1 1 max-content;
+	gap: 0.2em 1em;
+	padding: 0.5em;
+	border-radius: 3px;
+	background-color: #fff;
+}
+
+.languages legend {
+	position: relative;
+	left: -0.5em;
+	margin: 0;
+	padding: 0 0.5em;
+	border-radius: 3px;
+	background-color: #fff;
 }
 
 .checkboxes label {
@@ -120,9 +142,6 @@ legend {
 .checkboxes label span {
 	display: block;
 	position: relative;
-	padding: 0.5em;
-	border-radius: 3px;
-	background-color: #fff;
 }
 
 .checkboxes label span::before {
@@ -142,8 +161,8 @@ legend {
 .checkboxes label input:checked + span::after {
 	content: '';
 	position: absolute;
-	top: calc(0.5em + 6px);
-	left: calc(0.5em + 4px);
+	top: 6px;
+	left: 4px;
 	border: 2px solid #fff;
 	width: 5px;
 	height: 8px;
