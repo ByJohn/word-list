@@ -26,10 +26,12 @@ let words = {
 						resolve(results.data);
 					},
 					error: (e, file) => {
+						console.error('Error loading "words/' + csv + '.csv"', e, file);
 						resolve([]); //Return empty array if the file does not exist
 					},
 				});
 			} catch (e) {
+				console.error('Error loading "words/' + csv + '.csv"', e);
 				resolve([]); //Return empty array
 			}
 		});
