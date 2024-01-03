@@ -317,6 +317,7 @@ footer a {
 	margin: 0 auto;
 }
 
+.word-list.hide-words .words .word-details,
 .word-list.hide-words .words .word {
 	filter: blur(10px);
 	font-weight: bold;
@@ -327,13 +328,27 @@ footer a {
 	position: absolute;
 	left: 0;
 	top: 50%;
+	margin-top: -1ex;
 	font-size: 0.6em;
 	font-weight: 300;
-	transform: translateY(-50%);
 }
 
 .word-list .words .number::after {
 	content: '.';
+}
+
+.word-list .words .word-details {
+	display: none;
+	font-size: 0.47em;
+	font-weight: 300;
+}
+
+.word-list.show-details .word-details {
+	display: block;
+}
+
+.word-list .words .word-tags:not(:empty)::before {
+	content: ' ' '\2022' ' ';
 }
 
 .word-list nav {

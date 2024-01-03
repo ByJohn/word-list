@@ -41,6 +41,8 @@ let ui = {
 		this.$prevPage.addEventListener('click', this.prevPage.bind(this), false);
 		this.$nextPage.addEventListener('click', this.nextPage.bind(this), false);
 		this.$toggleWords.addEventListener('click', this.toggleWords.bind(this), false);
+
+		this.$wordListInner.addEventListener('click', this.toggleWordDetails.bind(this), false);
 	},
 
 	//Form methods
@@ -134,9 +136,16 @@ let ui = {
 			wordsHtml = '';
 
 		pageWords.forEach((word, i) => {
-			let number = start + i + 1;
+			let number = start + i + 1,
+				tags = word.tags.trim() ? word.tags.split('|').join(' &bull; ') : '';
 
-			wordsHtml += '<li><span class="number">' + number + '</span><span class="word">' + word.word + '</span></li>';
+			wordsHtml += getTemplateString('word-item', {
+				number: number,
+				word: word.word,
+				wordType: word.type,
+				wordClass: word.wordClass.charAt(0).toUpperCase() + word.wordClass.slice(1), //Capitalise word
+				wordTags: tags,
+			});
 		});
 
 		this.$wordListInner.innerHTML = getTemplateString('word-list-page', {
@@ -153,5 +162,8 @@ let ui = {
 	},
 	toggleWords: function () {
 		this.$wordList.classList.toggle('hide-words');
+	},
+	toggleWordDetails: function () {
+		this.$wordList.classList.toggle('show-details');
 	},
 };

@@ -5,12 +5,30 @@ let words = {
 	newListLatestFulfilmentToken: null,
 	test: 1,
 
+	standardiseWordClass: function (wordClass) {
+		switch (wordClass.toLowerCase()) {
+			case 'nouns' :
+				return 'noun';
+
+			case 'verbs' :
+				return 'verb';
+
+			case 'adjectives' :
+				return 'adjective';
+		}
+
+		return wordClass;
+	},
 	loadWords: function (csv) {
 		return new Promise((resolve, reject) => {
 			//Check cache
 			if (this.wordCache.hasOwnProperty(csv)) {
 				return resolve(this.wordCache[csv]); //Return early from cache
 			}
+
+			let pathParts = csv.split('/'),
+				lang = pathParts[0],
+				wordClass = this.standardiseWordClass(pathParts[1]);
 
 			//Parse CSV
 			try {
@@ -20,6 +38,11 @@ let words = {
 					skipEmptyLines: true,
 					complete: results => {
 						if (!results.data || !Array.isArray(results.data)) return resolve([]); //Return empty array early
+
+						results.data.forEach(word => {
+							word.lang = lang;
+							word.wordClass = wordClass;
+						});
 
 						this.wordCache[csv] = results.data; //Save to cache
 
