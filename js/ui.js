@@ -22,6 +22,7 @@ let ui = {
 
 	init: function () {
 		this.setupEvents();
+		this.randomiseSeed();
 		this.refreshForm();
 	},
 	setupEvents: function () {
@@ -110,6 +111,10 @@ let ui = {
 	},
 	getSeed: function () {
 		return this.$seed.value.trim().toUpperCase();
+	},
+
+	randomiseSeed: function () {
+		this.$seed.value = Math.random().toString(36).replace(/\d/g, '').substring(2, 7);
 	},
 
 	//List methods
