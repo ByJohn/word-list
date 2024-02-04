@@ -2,11 +2,11 @@
 
 A client-side web app to generate lists of common words, ordered in a way that is reproducibly-random.
 
-The randomisation is based on a user-provided seed, making the word order is deterministic - The same seed will produce the same output word order.
+The randomisation is based on a user-provided seed (shuffle code), making the word order deterministic - The same seed will produce the same output word order.
 
 ## Demo
 
-Hosted via GitHub Pages here: [words.johnevans.uk](https://words.johnevans.uk/)
+Hosted on GitHub Pages here: [words.johnevans.uk](https://words.johnevans.uk/)
 
 ## Raw Word Lists
 
@@ -20,7 +20,7 @@ Within each CSV file, the words are ordered alphabetically and use three columns
 
 ## Tabletop Game Use
 
-The original purpose of this web app was to supplement tabletop games that need preset lists of words, for example:
+The original purpose of this web app was to supplement tabletop games that need shareable, preset lists of words, for example:
 
 - Pictionary
 - Just One
