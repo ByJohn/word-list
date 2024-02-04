@@ -1,0 +1,27 @@
+{
+	"name": "word-list",
+	"version": "1.0.0",
+	"description": "Client-side web app to generate reproducibly-random lists of common words.",
+	"author": "John Evans",
+	"browser": {
+		"fs": false
+	},
+	"directories": {
+		"test": "test"
+	},
+	"devDependencies": {
+		"@fast-csv/parse": "^5.0.0",
+		"fast-csv": "^5.0.0",
+		"faucet": "^0.0.4",
+		"tape": "^5.7.4"
+	},
+	"scripts": {
+		"test": "npx faucet"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/ByJohn/word-list.git"
+	},
+	"homepage": "https://github.com/ByJohn/word-list",
+	"license": "GNU GPLv3"
+}

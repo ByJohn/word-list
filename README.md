@@ -5,6 +5,7 @@ A client-side web app to generate lists of common words, ordered in a way that i
 The randomisation is based on a user-provided seed, making the word order is deterministic - The same seed will produce the same output word order.
 
 ## Demo
+
 Hosted via GitHub Pages here: [words.johnevans.uk](https://words.johnevans.uk/)
 
 ## Raw Word Lists
@@ -26,6 +27,21 @@ The original purpose of this web app was to supplement tabletop games that need 
 - Codenames
 - Decrypto
 - Banned Words
+
+## Testing (CSV Validation)
+
+There are automated tests to validate the csv files.
+
+To install the test dependencies, run the following command:
+```
+$ npm install
+```
+
+To run the tests, run the following command:
+```
+$ npm run test
+```
+
 
 ## To Do
 - Add more words.
