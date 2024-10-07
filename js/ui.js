@@ -23,20 +23,20 @@ let ui = {
 	init: function () {
 		this.setupEvents();
 		this.randomiseSeed();
-		this.refreshForm();
+		this.prepareWords();
 	},
 	setupEvents: function () {
 		this.$form.addEventListener('submit', this.formSubmitted.bind(this), false);
 
 		this.$csvs.forEach($csv => {
-			$csv.addEventListener('change', debounce(this.refreshForm.bind(this), 200), false);
+			$csv.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
 		});
 
-		this.$perPage.addEventListener('keyup', this.updatePreResults.bind(this), false);
-		this.$perPage.addEventListener('change', this.updatePreResults.bind(this), false);
+		this.$perPage.addEventListener('keyup', this.updateListStats.bind(this), false);
+		this.$perPage.addEventListener('change', this.updateListStats.bind(this), false);
 
-		this.$seed.addEventListener('keyup', debounce(this.refreshForm.bind(this), 200), false);
-		this.$seed.addEventListener('change', debounce(this.refreshForm.bind(this), 200), false);
+		this.$seed.addEventListener('keyup', debounce(this.prepareWords.bind(this), 200), false);
+		this.$seed.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
 
 		this.$close.addEventListener('click', this.closeList.bind(this), false);
 		this.$prevPage.addEventListener('click', this.prevPage.bind(this), false);
@@ -55,7 +55,7 @@ let ui = {
 		this.setPage(this.getStartPage());
 		this.openList();
 	},
-	refreshForm: function () {
+	prepareWords: function () {
 		this.$submit.setAttribute('disabled', '');
 		this.$form.classList.add('refreshing');
 
@@ -73,7 +73,7 @@ let ui = {
 
 				this.$form.classList.remove('refreshing');
 
-				this.updatePreResults(list);
+				this.updateListStats(list);
 
 				if (list.length) {
 					this.$submit.removeAttribute('disabled');
@@ -82,7 +82,7 @@ let ui = {
 
 		this.newListLatestFulfilmentToken = fulfilmentToken;
 	},
-	updatePreResults: function (list) {
+	updateListStats: function (list) {
 		list = Array.isArray(list) ? list : words.list;
 
 		this.$preResultsCount.innerHTML = list.length;
