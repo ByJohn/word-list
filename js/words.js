@@ -185,14 +185,22 @@ let words = {
 					wordClassCombinedMetadata = this.combinedMetadata[wordClass],
 					possibleTypes = Object.keys(wordClassCombinedMetadata.type),
 					possibleTags = Object.keys(wordClassCombinedMetadata.tag),
-					filters = args.filters[wordClass];
+					filters = args.filters[wordClass],
+					allTypesSelected = possibleTypes.length < 2 || possibleTypes.length == filters.type.length,
+					allTagsSelected = possibleTags.length < 2 || possibleTags.length == filters.tag.length;
+
+				if (allTypesSelected && allTagsSelected) {
+					this.list.push(...wordSet); //Add all words in the word set
+
+					return; //Skip to next csv
+				}
 
 				wordSet.forEach(word => {
 					let tags = word.tags.trim().split('|').map(w => w.trim());
 
 					if (
-						(possibleTypes.length < 2 || filters.type.includes(word.type)) &&
-						(possibleTags.length < 2 || filters.tag.filter(t => tags.includes(t)).length > 0)
+						(possibleTypes.length < 2 || allTypesSelected || filters.type.includes(word.type)) &&
+						(possibleTags.length < 2 || allTagsSelected || filters.tag.filter(t => tags.includes(t)).length > 0)
 					) {
 						this.list.push(word);
 					}
