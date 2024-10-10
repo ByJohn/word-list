@@ -2,6 +2,9 @@
 let ui = {
 	$form: document.getElementById('form'),
 	$csvs: document.querySelectorAll('#form input[name="csv"]'),
+	$filtersContainer: document.getElementById('filters-container'),
+	$filtersToggle: document.getElementById('filters-toggle'),
+	$filters: document.getElementById('filters'),
 	$textFields: document.querySelectorAll('#form input[type="text"], #form input[type="number"]'),
 	$perPage: document.getElementById('per-page'),
 	$startPage: document.getElementById('start-page'),
@@ -23,14 +26,17 @@ let ui = {
 	init: function () {
 		this.setupEvents();
 		this.randomiseSeed();
-		this.prepareWords();
+		this.csvsChanged();
 	},
 	setupEvents: function () {
 		this.$form.addEventListener('submit', this.formSubmitted.bind(this), false);
 
 		this.$csvs.forEach($csv => {
-			$csv.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
+			$csv.addEventListener('change', debounce(this.csvsChanged.bind(this), 200), false);
 		});
+
+		this.$filtersToggle.addEventListener('click', this.toggleFilters.bind(this), false);
+		this.$filters.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
 
 		this.$perPage.addEventListener('keyup', this.updateListStats.bind(this), false);
 		this.$perPage.addEventListener('change', this.updateListStats.bind(this), false);
@@ -55,30 +61,70 @@ let ui = {
 		this.setPage(this.getStartPage());
 		this.openList();
 	},
-	prepareWords: function () {
-		this.$submit.setAttribute('disabled', '');
-		this.$form.classList.add('refreshing');
+	setLoading: function (loading) {
+		loading = typeof loading !== 'undefined' ? loading : true;
 
-		//Get words
+		if (loading) {
+			this.$submit.setAttribute('disabled', '');
+			this.$form.classList.add('refreshing');
+		} else {
+			this.$form.classList.remove('refreshing');
+
+			if (words.list.length) {
+				this.$submit.removeAttribute('disabled');
+			}
+		}
+	},
+	csvsChanged: function () {
+		this.setLoading(true);
+
 		let fulfilmentToken = Date.now(),
 			args = {
 				fulfilmentToken: fulfilmentToken,
+				csvs: this.getCheckedValues(this.$csvs)
+			};
+
+		words.loadCSVs(args).then(() => {
+			if (fulfilmentToken != this.newListLatestFulfilmentToken) return; //Make sure we have loaded the last form refresh
+
+			this.updateAvailableFilters();
+
+			this.prepareWords(fulfilmentToken);
+		});
+
+		this.newListLatestFulfilmentToken = fulfilmentToken;
+	},
+	prepareWords: function (fulfilmentToken) {
+		this.setLoading(true);
+
+		fulfilmentToken = typeof fulfilmentToken !== 'undefined' ? fulfilmentToken : Date.now();
+
+		let args = {
 				csvs: this.getCheckedValues(this.$csvs),
+				filters: {
+					noun: {
+						type: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="noun-type"]')),
+						tag: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="noun-tag"]')),
+					},
+					verb: {
+						type: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="verb-type"]')),
+						tag: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="verb-tag"]')),
+					},
+					adjective: {
+						type: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="adjective-type"]')),
+						tag: this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="adjective-tag"]')),
+					}
+				},
 				seed: this.getSeed(),
 			};
 
-		words.newList(args)
-			.then(list => {
-				if (fulfilmentToken != this.newListLatestFulfilmentToken) return; //Make sure we have loaded the last form refresh
+		words.newList(args).then(list => {
+			if (fulfilmentToken != this.newListLatestFulfilmentToken) return; //Make sure we have loaded the last form refresh
 
-				this.$form.classList.remove('refreshing');
+			this.updateListStats(list);
 
-				this.updateListStats(list);
-
-				if (list.length) {
-					this.$submit.removeAttribute('disabled');
-				}
-			});
+			this.setLoading(false);
+		});
 
 		this.newListLatestFulfilmentToken = fulfilmentToken;
 	},
@@ -87,6 +133,63 @@ let ui = {
 
 		this.$preResultsCount.innerHTML = list.length;
 		this.$preResultsPages.innerHTML = Math.ceil(list.length / this.getPerPage());
+	},
+
+	//Filter methods
+	toggleFilters: function () {
+		this.$filtersContainer.classList.toggle('open');
+	},
+	updateAvailableFilters: function () {
+		let wordClasses = {
+				noun: 'Noun',
+				verb: 'Verb',
+				adjective: 'Adjective',
+			},
+			wordAttributes = {
+				type: 'Type',
+				tag: 'Tag',
+			};
+
+		this.$filtersContainer.classList.remove('empty');
+		this.$filters.innerHTML = '';
+
+		for (wordClass in wordClasses) {
+			for (wordAttribute in wordAttributes) {
+				let attributeMetadata = words.combinedMetadata[wordClass][wordAttribute],
+					attributeOptions = '',
+					attributeNames = Object.keys(attributeMetadata);
+
+				if (attributeNames.length < 2) continue; //Skip if less than 2 options
+
+				attributeNames.sort(); //Order names alphabetically
+
+				for (let i = 0; i < attributeNames.length; ++i) {
+					let attribute = attributeNames[i];
+
+					attributeOptions += getTemplateString('filter-attribute-option', {
+						wordClass: wordClass,
+						wordAttribute: wordAttribute,
+						value: attribute,
+						label: attribute != '' ? attribute : '[No ' + wordAttribute + ']',
+						count: attributeMetadata[attribute],
+						checked: 'checked',
+					});
+				}
+
+				if (attributeOptions) {
+					this.$filters.innerHTML += getTemplateString('filter-attribute-group', {
+						wordClass: wordClass,
+						wordAttribute: wordAttribute,
+						title: wordClasses[wordClass] + ' ' + wordAttributes[wordAttribute],
+						attributeOptions: attributeOptions,
+					});
+				}
+			}
+		}
+
+		if (this.$filters.innerHTML == '') {
+			this.$filtersContainer.classList.add('empty');
+		}
 	},
 
 	//Field methods

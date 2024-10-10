@@ -76,6 +76,12 @@
 					</fieldset>
 				</div>
 
+				<div id="filters-container" class="filters-container">
+					<button type="button" id="filters-toggle" class="filters-toggle">Word Filters</button>
+
+					<div id="filters" class="filters"></div>
+				</div>
+
 				<fieldset class="list-options">
 					<label>
 						<span>Words Per Card</span>
@@ -103,6 +109,20 @@
 
 		<footer><a href="https://www.johnevans.uk/" target="_blank">By John</a> | View raw word lists and contribute words via <a href="https://github.com/ByJohn/word-list" target="_blank">GitHub</a></footer>
 	</div>
+
+	<template id="filter-attribute-group">
+		<fieldset class="checkboxes filter-%wordClass%-%wordAttribute%">
+			<legend>%title%</legend>
+
+			%attributeOptions%
+		</fieldset>
+	</template>
+
+	<template id="filter-attribute-option">
+		<label title="Total: %count%">
+			<input type="checkbox" name="%wordClass%-%wordAttribute%" value="%value%" %checked%><span>%label% <sup>(%count%)</sup></span>
+		</label>
+	</template>
 
 	<template id="word-list-page">
 		<ol class="words">%words%</ol>

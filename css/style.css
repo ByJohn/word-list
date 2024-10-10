@@ -98,7 +98,8 @@ form {
 fieldset {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1em;
+	gap: 0.2em 1em;
+	margin: 0;
 	padding: 0;
 	border: none;
 }
@@ -114,6 +115,7 @@ legend {
 	flex-wrap: wrap;
 }
 
+.filters fieldset,
 .languages fieldset {
 	flex: 1 1 max-content;
 	gap: 0.2em 1em;
@@ -122,6 +124,7 @@ legend {
 	background-color: #fff;
 }
 
+.filters legend,
 .languages legend {
 	position: relative;
 	left: -0.5em;
@@ -169,6 +172,75 @@ legend {
 	border-top: none;
 	border-left: none;
 	transform: rotate(45deg);
+}
+
+.checkboxes label span sup {
+	font-size: 0.65em;
+}
+
+.filters-container {
+	width: min-content;
+	padding: 0.5em;
+	border: 1px solid #c4aa8d;
+	border-radius: 3px;
+}
+
+.filters-container.open {
+	width: auto;
+}
+
+.filters-container.empty {
+	display: none;
+}
+
+.filters-toggle {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: none;
+	background: none;
+	text-align: inherit;
+	color: #a08363;
+	white-space: nowrap;
+}
+
+.filters-toggle::before {
+	content: '\203A';
+	display: inline-block;
+	margin-right: 0.3em;
+	transform: rotate(90deg);
+}
+
+.filters-container.open .filters-toggle::before {
+	transform: rotate(-90deg);
+}
+
+.filters {
+	display: none;
+	/* align-items: flex-start; */
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 0.5em;
+}
+
+.filters-container.open .filters {
+	display: flex;
+}
+
+.filters fieldset {
+	flex: 1;
+}
+
+.filters fieldset[class*="-type"] {
+	flex-basis: calc(33.33% - 0.5em);
+}
+
+.filters fieldset[class*="-tag"] {
+	flex-basis: calc(66.66% - 0.5em);
+}
+
+.filters fieldset legend {
+	margin-bottom: 0.2em;
 }
 
 .list-options label {

@@ -1,9 +1,10 @@
 //Words
 let words = {
-	wordCache: {},
-	list: [],
+	wordCache: {}, //Previously-loaded word sets
+	wordMetadata: {}, //Extra data for each word set
+	combinedMetadata: {}, //Combined data of selected word sets
+	list: [], //Current, full word list
 	newListLatestFulfilmentToken: null,
-	test: 1,
 
 	standardiseWordClass: function (wordClass) {
 		switch (wordClass.toLowerCase()) {
@@ -18,6 +19,33 @@ let words = {
 		}
 
 		return wordClass;
+	},
+	loadCSVs: function (args) {
+		return new Promise((resolve, reject) => {
+			let defaultArgs = {
+				fulfilmentToken: 0,
+				csvs: [],
+			};
+
+			args = {...defaultArgs, ...args};
+
+			this.newListLatestFulfilmentToken = args.fulfilmentToken;
+
+			let promises = [];
+
+			args.csvs.forEach(csv => {
+				promises.push(this.loadWords(csv));
+			});
+
+			//Once all CSVs are loaded
+			Promise.allSettled(promises).then(results => {
+				if (args.fulfilmentToken != this.newListLatestFulfilmentToken) return resolve(this.list); //Make sure we are processing the latest request
+
+				this.combineMetadata(args.csvs);
+
+				resolve();
+			});
+		});
 	},
 	loadWords: function (csv) {
 		return new Promise((resolve, reject) => {
@@ -46,6 +74,8 @@ let words = {
 
 						this.wordCache[csv] = results.data; //Save to cache
 
+						this.addMetadata(csv, results.data);
+
 						resolve(results.data);
 					},
 					error: (e, file) => {
@@ -59,38 +89,119 @@ let words = {
 			}
 		});
 	},
+	addMetadata: function (csv, words) {
+		if (this.wordMetadata.hasOwnProperty(csv)) return; //Skip if already added
+
+		let metadata = {
+			type: {},
+			tag: {},
+		};
+
+		words.forEach(word => {
+			let type = word.type.trim(),
+				tags = word.tags.trim().split('|');
+
+			if (!metadata.type.hasOwnProperty(type)) {
+				metadata.type[type] = 1;
+			} else {
+				metadata.type[type]++;
+			}
+
+			tags.forEach(tag => {
+				tag = tag.trim();
+
+				if (!metadata.tag.hasOwnProperty(tag)) {
+					metadata.tag[tag] = 1;
+				} else {
+					metadata.tag[tag]++;
+				}
+			});
+		});
+
+		this.wordMetadata[csv] = metadata;
+	},
+	combineMetadata: function (csvs) {
+		//Organised by standardised word class
+		this.combinedMetadata = {
+			noun: {
+				type: {},
+				tag: {},
+			},
+			verb: {
+				type: {},
+				tag: {},
+			},
+			adjective: {
+				type: {},
+				tag: {},
+			},
+		};
+
+		csvs.forEach(csv => {
+			let pathParts = csv.split('/'),
+				lang = pathParts[0],
+				wordClass = this.standardiseWordClass(pathParts[1]);
+				wordClassMetadata = this.combinedMetadata[wordClass],
+				csvMetadata = this.wordMetadata[csv];
+
+			for (type in csvMetadata.type) {
+				if (!wordClassMetadata.type.hasOwnProperty(type)) {
+					wordClassMetadata.type[type] = csvMetadata.type[type];
+				} else {
+					wordClassMetadata.type[type] += csvMetadata.type[type];
+				}
+			}
+
+			for (tag in csvMetadata.tag) {
+				if (!wordClassMetadata.tag.hasOwnProperty(tag)) {
+					wordClassMetadata.tag[tag] = csvMetadata.tag[tag];
+				} else {
+					wordClassMetadata.tag[tag] += csvMetadata.tag[tag];
+				}
+			}
+		});
+	},
+	//Gets a list of words given the word sets, filters and randomiser seed. The CSVs must have already been loaded into wordCache
 	newList: function (args) {
 		return new Promise((resolve, reject) => {
-			//TODO: Do not load new words if only list settings have changed - Only a shuffle is needed
+			//TODO: Do not load new words if only list settings have changed - Only a shuffle is needed (take care, considering shuffling may depend on input order)
 
 			let defaultArgs = {
 				fulfilmentToken: 0,
 				csvs: [],
+				filters: {},
 				seed: '',
 			};
 
 			args = {...defaultArgs, ...args};
 
-			this.newListLatestFulfilmentToken = args.fulfilmentToken;
 			this.list.length = 0; //Empty existing list
 
-			let promises = [];
-
 			args.csvs.forEach(csv => {
-				promises.push(this.loadWords(csv));
+				let = wordSet = this.wordCache[csv],
+					pathParts = csv.split('/'),
+					lang = pathParts[0],
+					wordClass = this.standardiseWordClass(pathParts[1]),
+					wordClassCombinedMetadata = this.combinedMetadata[wordClass],
+					possibleTypes = Object.keys(wordClassCombinedMetadata.type),
+					possibleTags = Object.keys(wordClassCombinedMetadata.tag),
+					filters = args.filters[wordClass];
+
+				wordSet.forEach(word => {
+					let tags = word.tags.trim().split('|').map(w => w.trim());
+
+					if (
+						(possibleTypes.length < 2 || filters.type.includes(word.type)) &&
+						(possibleTags.length < 2 || filters.tag.filter(t => tags.includes(t)).length > 0)
+					) {
+						this.list.push(word);
+					}
+				});
 			});
 
-			Promise.allSettled(promises).then(results => {
-				if (args.fulfilmentToken != this.newListLatestFulfilmentToken) return resolve(this.list); //Make sure we are processing the latest request
+			this.list = shuffleArrayWithSeed(this.list, stringToHash(args.seed));
 
-				this.list = [];
-
-				results.forEach(result => this.list.push(...result.value)); //Merge all words into one list
-
-				this.list = shuffleArrayWithSeed(this.list, stringToHash(args.seed));
-
-				resolve(this.list);
-			});
+			resolve(this.list);
 		});
 	},
 };

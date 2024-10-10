@@ -46,4 +46,4 @@ $ npm run test
 ## To Do
 - Add more words.
 - Add details to all words.
-- Allow words to be filtered by type and tag.
+- Encode filters into shareable URL.
