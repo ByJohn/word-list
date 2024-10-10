@@ -472,7 +472,7 @@ Goldilocks,Proper,Person
 Golf,Concrete,Sport
 Goose,Concrete,Animal
 Government,Concrete,
-Governor,Concrete, Person
+Governor,Concrete,Person
 Grace,Abstract,
 Grade,Concrete,
 Grain,Concrete,Food
