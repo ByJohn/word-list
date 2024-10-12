@@ -12,6 +12,7 @@ let ui = {
 	$preResultsCount: document.querySelector('#pre-results .count'),
 	$preResultsPages: document.querySelector('#pre-results .pages'),
 	$submit: document.getElementById('submit'),
+	lastFilters: {}, //Remembers what filters have been checked
 	newListLatestFulfilmentToken: null, //Token (millisecond time) of the most recent word list refresh
 	page: 1,
 	$wordList: document.getElementById('word-list'),
@@ -36,7 +37,7 @@ let ui = {
 		});
 
 		this.$filtersToggle.addEventListener('click', this.toggleFilters.bind(this), false);
-		this.$filters.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
+		this.$filters.addEventListener('change', debounce(this.selectedFiltersChanged.bind(this), 200), false);
 
 		this.$perPage.addEventListener('keyup', this.updateListStats.bind(this), false);
 		this.$perPage.addEventListener('change', this.updateListStats.bind(this), false);
@@ -164,7 +165,8 @@ let ui = {
 				attributeNames.sort(); //Order names alphabetically
 
 				for (let i = 0; i < attributeNames.length; ++i) {
-					let attribute = attributeNames[i];
+					let attribute = attributeNames[i],
+						checked = !this.lastFilters.hasOwnProperty(wordClass) || !this.lastFilters[wordClass].hasOwnProperty(wordAttribute) || (this.lastFilters?.[wordClass]?.[wordAttribute] && this.lastFilters[wordClass][wordAttribute].includes(attribute));
 
 					attributeOptions += getTemplateString('filter-attribute-option', {
 						wordClass: wordClass,
@@ -172,7 +174,7 @@ let ui = {
 						value: attribute,
 						label: attribute != '' ? attribute : '[No ' + wordAttribute + ']',
 						count: attributeMetadata[attribute],
-						checked: 'checked',
+						checked: checked ? 'checked' : '',
 					});
 				}
 
@@ -190,6 +192,32 @@ let ui = {
 		if (this.$filters.innerHTML == '') {
 			this.$filtersContainer.classList.add('empty');
 		}
+	},
+	selectedFiltersChanged: function () {
+		this.$filters.querySelectorAll('input[type="checkbox"]').forEach($checkbox => {
+			let wordClass = $checkbox.dataset.class,
+				wordAttribute = $checkbox.dataset.attribute,
+				value = $checkbox.value,
+				checked = $checkbox.checked;
+
+			if (!this.lastFilters.hasOwnProperty(wordClass)) {
+				this.lastFilters[wordClass] = {};
+			}
+
+			if (!this.lastFilters[wordClass].hasOwnProperty(wordAttribute)) {
+				this.lastFilters[wordClass][wordAttribute] = [];
+			}
+
+			let valueIndex = this.lastFilters[wordClass][wordAttribute].indexOf(value);
+
+			if (checked && valueIndex === -1) {
+				this.lastFilters[wordClass][wordAttribute].push(value);
+			} else if (!checked && valueIndex > -1) {
+				this.lastFilters[wordClass][wordAttribute].splice(valueIndex);
+			}
+		});
+
+		this.prepareWords();
 	},
 
 	//Field methods
