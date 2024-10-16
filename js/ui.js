@@ -37,7 +37,7 @@ let ui = {
 		});
 
 		this.$filtersToggle.addEventListener('click', this.toggleFilters.bind(this), false);
-		this.$filters.addEventListener('change', debounce(this.selectedFiltersChanged.bind(this), 200), false);
+		this.$filters.addEventListener('change', debounce(this.filtersChanged.bind(this), 200), false);
 
 		this.$perPage.addEventListener('keyup', this.updateListStats.bind(this), false);
 		this.$perPage.addEventListener('change', this.updateListStats.bind(this), false);
@@ -191,10 +191,43 @@ let ui = {
 
 		if (this.$filters.innerHTML == '') {
 			this.$filtersContainer.classList.add('empty');
+		} else {
+			this.updateAllFilterGroupToggles();
 		}
 	},
+	filtersChanged: function (e) {
+		if (e.target.classList.contains('all')) {
+			this.filterGroupToggleChanged(e.target);
+		} else {
+			this.selectedFiltersChanged();
+			this.updateFilterGroupToggle(e.target);
+		}
+	},
+	filterGroupToggleChanged: function ($allCheckbox) {
+		$allCheckbox.closest('fieldset').querySelectorAll('input.attribute[type="checkbox"]').forEach($checkbox => {
+			$checkbox.checked = $allCheckbox.checked; //Check/uncheck all
+		});
+
+		this.selectedFiltersChanged();
+	},
+	updateFilterGroupToggle: function ($el) {
+		let $fieldset = $el.closest('fieldset'),
+			$allCheckbox = $fieldset.querySelector('input.all[type="checkbox"]'),
+			$checkboxes = [...$fieldset.querySelectorAll('input.attribute[type="checkbox"]')]; //Converts NodeList to Array
+
+		let allChecked = $checkboxes.every($checkbox => {
+			return $checkbox.checked;
+		});
+
+		$allCheckbox.checked = allChecked;
+	},
+	updateAllFilterGroupToggles: function () {
+		this.$filters.querySelectorAll('input.all[type="checkbox"]').forEach($checkbox => {
+			this.updateFilterGroupToggle($checkbox);
+		});
+	},
 	selectedFiltersChanged: function () {
-		this.$filters.querySelectorAll('input[type="checkbox"]').forEach($checkbox => {
+		this.$filters.querySelectorAll('input.attribute[type="checkbox"]').forEach($checkbox => {
 			let wordClass = $checkbox.dataset.class,
 				wordAttribute = $checkbox.dataset.attribute,
 				value = $checkbox.value,

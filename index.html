@@ -112,7 +112,14 @@
 
 	<template id="filter-attribute-group">
 		<fieldset class="checkboxes filter-%wordClass%-%wordAttribute%">
-			<legend>%title%</legend>
+			<legend>
+				<label>
+					%title%
+
+					<input type="checkbox" name="all-%wordClass%" value="1" %checked% data-class="%wordClass%" class="all">
+					<span title="Toggle all"></span>
+				</label>
+			</legend>
 
 			%attributeOptions%
 		</fieldset>
@@ -120,7 +127,7 @@
 
 	<template id="filter-attribute-option">
 		<label title="Total: %count%">
-			<input type="checkbox" name="%wordClass%-%wordAttribute%" value="%value%" %checked% data-class="%wordClass%" data-attribute="%wordAttribute%"><span>%label% <sup>(%count%)</sup></span>
+			<input type="checkbox" name="%wordClass%-%wordAttribute%" value="%value%" %checked% data-class="%wordClass%" data-attribute="%wordAttribute%" class="attribute"><span>%label% <sup>(%count%)</sup></span>
 		</label>
 	</template>
 

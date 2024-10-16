@@ -16,6 +16,7 @@ body {
 	background-color: #e7dfd6;
 	color: #444;
 	font-family: 'Mali', sans-serif;
+	accent-color: #b9946c;
 }
 
 .wrapper {
@@ -145,6 +146,10 @@ legend {
 .checkboxes label span {
 	display: block;
 	position: relative;
+}
+
+.checkboxes legend label span {
+	display: inline-block;
 }
 
 .checkboxes label span::before {
