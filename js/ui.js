@@ -4,6 +4,7 @@ let ui = {
 	$csvs: document.querySelectorAll('#form input[name="csv"]'),
 	$filtersContainer: document.getElementById('filters-container'),
 	$filtersToggle: document.getElementById('filters-toggle'),
+	$filterChanges: document.getElementById('filter-changes'),
 	$filters: document.getElementById('filters'),
 	$textFields: document.querySelectorAll('#form input[type="text"], #form input[type="number"]'),
 	$perPage: document.getElementById('per-page'),
@@ -201,6 +202,25 @@ let ui = {
 		} else {
 			this.selectedFiltersChanged();
 			this.updateFilterGroupToggle(e.target);
+		}
+
+		this.updateFilterChangesText();
+	},
+	updateFilterChangesText: function () {
+		let changes = 0; //Number of unchecked attributes
+
+		this.$filters.querySelectorAll('input.attribute[type="checkbox"]').forEach($checkbox => {
+			if (!$checkbox.checked) {
+				changes++;
+			}
+		});
+
+		if (changes === 1) {
+			this.$filterChanges.innerHTML = '(1 change)';
+		} else if (changes > 1) {
+			this.$filterChanges.innerHTML = '(' + changes + ' changes)';
+		} else {
+			this.$filterChanges.innerHTML = '';
 		}
 	},
 	filterGroupToggleChanged: function ($allCheckbox) {
