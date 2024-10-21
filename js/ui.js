@@ -12,6 +12,7 @@ let ui = {
 	$seed: document.getElementById('seed'),
 	$preResultsCount: document.querySelector('#pre-results .count'),
 	$preResultsPages: document.querySelector('#pre-results .pages'),
+	$share: document.getElementById('share'),
 	$submit: document.getElementById('submit'),
 	lastFilters: {}, //Remembers what filters have been checked
 	newListLatestFulfilmentToken: null, //Token (millisecond time) of the most recent word list refresh
@@ -55,6 +56,8 @@ let ui = {
 
 		this.$seed.addEventListener('keyup', debounce(this.prepareWords.bind(this), 200), false);
 		this.$seed.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
+
+		this.$share.addEventListener('click', this.share.bind(this), false);
 
 		this.$close.addEventListener('click', this.closeList.bind(this), false);
 		this.$prevPage.addEventListener('click', this.prevPage.bind(this), false);
@@ -473,6 +476,24 @@ let ui = {
 		});
 
 		return values;
+	},
+	share: function () {
+		navigator.permissions.query({ name: 'clipboard-write' }).then((result) => {
+			if (result.state === 'granted' || result.state === 'prompt') {
+				navigator.clipboard.writeText(window.location.href).then(
+					() => {
+						alert('Copied link to clipboard');
+					},
+					() => {
+						alert('Clipboard save failed. Please copy the URL instead.');
+					},
+				);
+			}
+		},
+		() => {
+			alert('Clipboard save failed. Please copy the URL instead.');
+		}
+		);
 	},
 
 	//List methods

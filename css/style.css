@@ -281,12 +281,31 @@ legend {
 	transition: all 0.5s;
 }
 
-.submit {
-	padding: 1em;
+.action-buttons {
+	display: flex;
+	gap: 0.5em;
+}
+
+.action-buttons button {
 	border: 1px solid #444;
 	border-radius: 3px;
 	background-color: #444;
 	color: #fff;
+}
+
+.share {
+	padding: 0.5em 1em;
+}
+
+.share svg {
+	display: block;
+	width: auto;
+	height: 1.5em;
+}
+
+.submit {
+	flex: 1;
+	padding: 1em;
 	font-weight: bold;
 	text-transform: uppercase;
 }
