@@ -45,5 +45,5 @@ $ npm run test
 
 ## To Do
 - Add more words.
-- Add details to all words.
-- Encode filters into shareable URL.
+- Add attributes to all words.
+- Consider word list amendments to ensure the results are identical for all users using the same link

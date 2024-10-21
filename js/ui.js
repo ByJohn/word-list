@@ -15,6 +15,8 @@ let ui = {
 	$submit: document.getElementById('submit'),
 	lastFilters: {}, //Remembers what filters have been checked
 	newListLatestFulfilmentToken: null, //Token (millisecond time) of the most recent word list refresh
+	loadedFirstList: false,
+	defaultFormValues: {},
 	page: 1,
 	$wordList: document.getElementById('word-list'),
 	$wordListInner: document.getElementById('word-list-inner'),
@@ -26,8 +28,13 @@ let ui = {
 	$toggleWords: document.getElementById('toggle-words'),
 
 	init: function () {
+		this.defaultFormValues = this.getFormValues();
+
+		if (!this.setFormFromURL()) {
+			this.randomiseSeed();
+		}
+
 		this.setupEvents();
-		this.randomiseSeed();
 		this.csvsChanged();
 	},
 	setupEvents: function () {
@@ -40,8 +47,11 @@ let ui = {
 		this.$filtersToggle.addEventListener('click', this.toggleFilters.bind(this), false);
 		this.$filters.addEventListener('change', debounce(this.filtersChanged.bind(this), 200), false);
 
-		this.$perPage.addEventListener('keyup', this.updateListStats.bind(this), false);
-		this.$perPage.addEventListener('change', this.updateListStats.bind(this), false);
+		this.$perPage.addEventListener('keyup', this.perPageChanged.bind(this), false);
+		this.$perPage.addEventListener('change', this.perPageChanged.bind(this), false);
+
+		this.$startPage.addEventListener('keyup', this.startPageChanged.bind(this), false);
+		this.$startPage.addEventListener('change', this.startPageChanged.bind(this), false);
 
 		this.$seed.addEventListener('keyup', debounce(this.prepareWords.bind(this), 200), false);
 		this.$seed.addEventListener('change', debounce(this.prepareWords.bind(this), 200), false);
@@ -126,9 +136,22 @@ let ui = {
 			this.updateListStats(list);
 
 			this.setLoading(false);
+
+			if (this.loadedFirstList) {
+				this.updateURL();
+			} else {
+				this.loadedFirstList = true;
+			}
 		});
 
 		this.newListLatestFulfilmentToken = fulfilmentToken;
+	},
+	perPageChanged: function () {
+		this.updateListStats();
+		this.updateURL();
+	},
+	startPageChanged: function () {
+		this.updateURL();
 	},
 	updateListStats: function (list) {
 		list = Array.isArray(list) ? list : words.list;
@@ -195,6 +218,8 @@ let ui = {
 		} else {
 			this.updateAllFilterGroupToggles();
 		}
+
+		this.updateFilterChangesText();
 	},
 	filtersChanged: function (e) {
 		if (e.target.classList.contains('all')) {
@@ -296,9 +321,158 @@ let ui = {
 	getSeed: function () {
 		return this.$seed.value.trim().toUpperCase();
 	},
+	getFormValues: function () {
+		let values = {
+			csvs: this.getCheckedValues(this.$csvs),
+			perPage: this.getPerPage(),
+			startPage: this.getStartPage(),
+			seed: this.getSeed(),
+			filters: this.lastFilters,
+		};
+
+		return values
+	},
 
 	randomiseSeed: function () {
 		this.$seed.value = Math.random().toString(36).replace(/\d/g, '').substring(2, 7);
+	},
+
+	//URL methods
+	updateURL: function () {
+		let values = this.getFormValues(),
+			data = {},
+			wordClasses = {
+				noun: 'n',
+				verb: 'v',
+				adjective: 'a',
+			},
+			wordAttributes = {
+				type: 'ty',
+				tag: 'ta',
+			};
+
+		if (this.defaultFormValues.csvs.join(',') !== values.csvs.join(',')) {
+			data.w = values.csvs.join(' ').replaceAll('/', '.');
+		}
+
+		for (wordClass in wordClasses) {
+			for (wordAttribute in wordAttributes) {
+				let wordClassLabel = wordClasses[wordClass],
+					wordAttributeLabel = wordAttributes[wordAttribute],
+					selectedAttributeValues = this.getCheckedValues(this.$filters.querySelectorAll('input[type="checkbox"][name="' + wordClass + '-' + wordAttribute + '"]')),
+					attributeMetadata = words.combinedMetadata[wordClass][wordAttribute],
+					attributeNames = Object.keys(attributeMetadata);
+
+				//If all available attributes are not checked
+				if (selectedAttributeValues.length != attributeNames.length) {
+					let values = this.encodeAttributeValues(selectedAttributeValues);
+
+					data['f' + wordClassLabel + wordAttributeLabel] = values.join(' ');
+				}
+			}
+		}
+
+		if (this.defaultFormValues.perPage != values.perPage) {
+			data.pp = values.perPage;
+		}
+
+		if (this.defaultFormValues.startPage != values.startPage) {
+			data.sp = values.startPage;
+		}
+
+		data.sc = values.seed.toLowerCase();
+
+		if (Object.keys(data).length === 0) {
+			history.replaceState(null, '', '/');
+		} else {
+			history.replaceState(null, '', '/?' + new URLSearchParams(data).toString());
+		}
+	},
+	setFormFromURL: function () {
+		let data = new URLSearchParams(location.search),
+			wordClasses = {
+				noun: 'n',
+				verb: 'v',
+				adjective: 'a',
+			},
+			wordAttributes = {
+				type: 'ty',
+				tag: 'ta',
+			};
+
+		if (data.size === 0) return false;
+
+		if (data.has('w')) {
+			let csvs = data.get('w').replaceAll('.', '/').split(' ');
+
+			this.$csvs.forEach($csv => {
+				$csv.checked = csvs.includes($csv.value);
+			});
+		}
+
+		for (wordClass in wordClasses) {
+			for (wordAttribute in wordAttributes) {
+				let wordClassLabel = wordClasses[wordClass],
+					wordAttributeLabel = wordAttributes[wordAttribute],
+					key = 'f' + wordClassLabel + wordAttributeLabel;
+
+				if (!data.has(key)) continue;
+
+				let values = [];
+
+				if (data.get(key) !== '') {
+					values = this.decodeAttributeValues(data.get(key).split(' '));
+				}
+
+				if (!this.lastFilters.hasOwnProperty(wordClass)) {
+					this.lastFilters[wordClass] = {};
+				}
+
+				this.lastFilters[wordClass][wordAttribute] = values
+			}
+		}
+
+		if (data.has('pp')) {
+			this.$perPage.value = data.get('pp');
+		}
+
+		if (data.has('sp')) {
+			this.$startPage.value = data.get('sp');
+		}
+
+		this.$seed.value = data.get('sc').trim().toLowerCase();
+
+		return true;
+	},
+	encodeAttributeValues: function (values) {
+		values.forEach((value, i) => {
+			let newValue = value.trim();
+
+			if (newValue === '') {
+				newValue = '___';
+			}
+
+			newValue = newValue.replaceAll(' ', '__');
+
+			values[i] = newValue;
+		});
+
+		return values;
+	},
+	decodeAttributeValues: function (values) {
+		values.forEach((value, i) => {
+			let newValue = value.trim();
+
+			if (newValue === '___') {
+				newValue = '';
+			}
+
+			newValue = newValue.replaceAll('__', ' ');
+
+			values[i] = newValue;
+		});
+
+		return values;
 	},
 
 	//List methods
