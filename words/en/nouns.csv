@@ -7,7 +7,7 @@ Actor,Concrete,Person
 Addition,Abstract,
 Advertisement,Concrete,
 Advice,Abstract,
-Africa,Proper,Location|Country
+Africa,Proper,Location|Continent
 Afternoon,Abstract,Event
 Age,Abstract,
 Agent,Concrete,Person
@@ -21,7 +21,7 @@ Alley,Concrete,Location
 Alps,Proper,Location
 Amazon,Proper,Location
 Ambulance,Concrete,Transport
-America,Proper,Location|Country
+America,Proper,Location|Country|Continent
 Anchor,Concrete,Transport
 Angel,Concrete,
 Anger,Abstract,Emotion
@@ -42,17 +42,17 @@ Arithmetic,Concrete,
 Arm,Concrete,Body
 Army,Concrete,
 Art,Concrete,
-Arthur,Proper,Person
 Ash,Concrete,
+Asia,Proper,Location|Continent
 Astronaut,Concrete,Person
 Atlantis,Proper,Location
 Attention,Abstract,
 Attic,Concrete,Location
-Australia,Concrete,Location|Country
+Australia,Proper,Location|Country|Continent
 Authority,Abstract,
 Avalanche,Concrete,Event
 Axe,Concrete,Tool
-Aztec,Proper,
+Aztec,Proper,Person
 Baby,Concrete,Person
 Back,Concrete,Body
 Bacon,Concrete,Food
@@ -98,7 +98,6 @@ Beijing,Proper,Location|City
 Belief,Abstract,
 Bell,Concrete,Sound
 Belt,Concrete,Clothing
-Ben,Proper,Person
 Bench,Concrete,Furniture
 Berlin,Proper,Location|City
 Bermuda,Proper,Location
@@ -214,7 +213,7 @@ Cherry,Concrete,Food
 Chess,Concrete,
 Chest,Concrete,Container|Body
 Chick,Concrete,Animal
-Chicken,Concrete,Animal
+Chicken,Concrete,Animal|Food
 Child,Concrete,Person
 Chin,Concrete,Body
 China,Proper,Location|Country
@@ -312,7 +311,6 @@ Decision,Abstract,
 Deck,Concrete,
 Deer,Concrete,Animal
 Degree,Concrete,
-Delta,Concrete,
 Dentist,Concrete,Person
 Design,Concrete,
 Desire,Abstract,Emotion
@@ -657,6 +655,7 @@ Marble,Concrete,Material
 March,Concrete,Event
 Mark,Concrete,
 Market,Concrete,Location
+Mars,Proper,Location
 Mask,Concrete,
 Mass,Concrete,
 Match,Concrete,
@@ -681,7 +680,7 @@ Mind,Abstract,Body
 Mine,Concrete,Location
 Minister,Concrete,Person
 Minotaur,Proper,Animal
-Mint,Concrete,
+Mint,Concrete,Food|Plant
 Minute,Abstract,Event
 Mirror,Concrete,
 Miss,Abstract,Event
@@ -716,10 +715,11 @@ Mustard,Concrete,Food
 Nail,Concrete,Tool
 Name,Abstract,
 Napoleon,Proper,Person
-Nation,Concrete,Location|Country
+Nation,Concrete,Location
 Neck,Concrete,Body
 Need,Abstract,Emotion
 Needle,Concrete,Tool
+Neptune,Proper,Location
 Nerve,Concrete,Body
 Nest,Concrete,Container
 Net,Concrete,Tool
@@ -829,6 +829,7 @@ Play,Abstract,
 Playground,Concrete,Location
 Plot,Concrete,
 Plough,Concrete,Tool
+Pluto,Proper,Location
 Pocket,Concrete,Container
 Point,Concrete,
 Poison,Concrete,Food
@@ -1123,7 +1124,7 @@ Temple,Concrete,Location
 Tent,Concrete,Location
 Territory,Concrete,Location
 Test,Concrete,
-Texas,Concrete,Location|State
+Texas,Proper,Location|State
 Texture,Concrete,
 Theater,Concrete,Location
 Theory,Abstract,
@@ -1147,7 +1148,7 @@ Title,Concrete,
 Toad,Concrete,Animal
 Toast,Concrete,Food
 Toe,Concrete,Body
-Tokyo,Concrete,Location|City
+Tokyo,Proper,Location|City
 Tomato,Concrete,Food
 Tongue,Concrete,Body
 Tooth,Concrete,Body
@@ -1176,7 +1177,7 @@ Trouble,Abstract,
 Tub,Concrete,Container
 Tube,Concrete,Container
 Tunnel,Concrete,
-Turkey,Concrete,Animal|Location|Country
+Turkey,Concrete,Animal|Food|Location|Country
 Turn,Concrete,
 Turtle,Concrete,Animal
 Tutu,Concrete,Clothing
@@ -1189,6 +1190,7 @@ Underwear,Concrete,Clothing
 Unicorn,Concrete,Animal
 Unit,Concrete,Furniture
 Univerity,Concrete,Location
+Uranus,Proper,Location
 Vacuum,Concrete,Tool
 Valentine,Concrete,Person
 Value,Abstract,
@@ -1219,7 +1221,7 @@ Walk,Concrete,
 Wall,Concrete,
 Walrus,Concrete,Animal
 War,Concrete,Event
-Washington,Concrete,Location|State
+Washington,Proper,Location|State
 Waste,Concrete,
 Watch,Concrete,Clothing
 Water,Concrete,Material

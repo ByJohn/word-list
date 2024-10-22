@@ -23,6 +23,7 @@ Within each CSV file, the words are ordered alphabetically and use three columns
 The original purpose of this web app was to supplement tabletop games that need shareable, preset lists of words, for example:
 
 - Pictionary
+- Articulate
 - Just One
 - Codenames
 - Decrypto
