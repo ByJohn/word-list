@@ -102,7 +102,7 @@ form {
 fieldset {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.2em 1em;
+	gap: 1em;
 	margin: 0;
 	padding: 0;
 	border: none;
@@ -122,8 +122,8 @@ legend {
 .filters fieldset,
 .languages fieldset {
 	flex: 1 1 max-content;
-	gap: 0.2em 1em;
-	padding: 0.5em;
+	gap: 1em;
+	padding: 0.4em 1em 1em;
 	border-radius: 3px;
 	background-color: #fff;
 }
@@ -131,9 +131,9 @@ legend {
 .filters legend,
 .languages legend {
 	position: relative;
-	left: -0.5em;
+	left: 0;
 	margin: 0;
-	padding: 0 0.5em;
+	padding: 0.3em 0.7em;
 	border-radius: 3px;
 	background-color: #fff;
 }
@@ -149,37 +149,72 @@ legend {
 .checkboxes label span {
 	display: block;
 	position: relative;
+	min-height: 2em;
+	padding: 0.3em 0.5em 0.4em 2.3em;
+	border: 1px solid #b9946c;
+	border-radius: 3px;
+	line-height: 1.2;
 }
 
 .checkboxes legend label span {
 	display: inline-block;
+	border: none;
 }
 
 .checkboxes label span::before {
 	content: '';
-	display: inline-block;
-	width: 13px;
-	height: 13px;
-	margin-right: 0.2em;
-	border: 1px solid #b9946c;
-	border-radius: 3px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1.8em;
+	height: 100%;
+	border-right: 1px solid #b9946c;
+	border-radius: 2px 0 0 2px;
 }
 
 .checkboxes label input:checked + span::before {
 	background-color: #b9946c;
 }
 
-.checkboxes label input:checked + span::after {
+.checkboxes label span::after {
 	content: '';
 	position: absolute;
-	top: 6px;
-	left: 4px;
-	border: 2px solid #fff;
-	width: 5px;
-	height: 8px;
+	top: 7px;
+	left: 10px;
+	width: 7px;
+	height: 14px;
+	border: 2px solid #eee2d4;
 	border-top: none;
 	border-left: none;
+	border-width: 3px;
 	transform: rotate(45deg);
+}
+
+.checkboxes label input:checked + span::after {
+	border-color: #fff;
+}
+
+.checkboxes label.small span {
+	min-height: inherit;
+	padding: 0;
+}
+
+.checkboxes label.small span::before {
+	display: inline-block;
+	position: relative;
+	width: 13px;
+	height: 13px;
+	border: 1px solid #b9946c;
+	border-radius: 3px;
+}
+
+.checkboxes label.small span::after {
+	position: absolute;
+	top: 5px;
+	left: 4px;
+	border-width: 2px;
+	width: 5px;
+	height: 8px;
 }
 
 .checkboxes label span sup {
@@ -195,6 +230,7 @@ legend {
 
 .filters-container.open {
 	width: auto;
+	padding: 1em 1.2em;
 }
 
 .filters-container.empty {
@@ -225,26 +261,14 @@ legend {
 
 .filters {
 	display: none;
-	/* align-items: flex-start; */
 	flex-wrap: wrap;
-	gap: 0.5em;
-	margin-top: 0.5em;
+	gap: 1em;
+	margin-top: 1em;
 }
 
 .filters-container.open .filters {
 	display: flex;
-}
-
-.filters fieldset {
-	flex: 1;
-}
-
-.filters fieldset[class*="-type"] {
-	flex-basis: calc(33.33% - 0.5em);
-}
-
-.filters fieldset[class*="-tag"] {
-	flex-basis: calc(66.66% - 0.5em);
+	flex-direction: column;
 }
 
 .filters fieldset legend {
@@ -263,7 +287,7 @@ legend {
 .list-options input {
 	width: 100%;
 	max-width: 100%;
-	padding: 0.4em 0.5em;
+	padding: 0.8em 1em;
 	border: none;
 	border-radius: 3px;
 }
@@ -353,7 +377,7 @@ footer a {
 	display: none;
 	position: fixed;
 	z-index: 2;
-	top: 50%;
+	top: 44%;
 	left: 50%;
 	width: 90%;
 	max-width: 560px;
@@ -370,11 +394,13 @@ footer a {
 .word-list .close {
 	position: absolute;
 	bottom: 100%;
+	padding: 0;
 	border: none;
 	background: none;
 	color: #9e876d;
 	right: 0;
-	font-size: 2em;
+	font-size: 3em;
+	line-height: 0.9;
 }
 
 .word-list-page-title {
@@ -462,7 +488,7 @@ footer a {
 
 .word-list nav button {
 	flex: 1 1 max-content;
-	padding: 0.5em;
+	padding: 1em 0.5em;
 	border: 1px solid #9e876d61;
 	border-radius: 3px;
 	background: none;
@@ -481,6 +507,31 @@ footer a {
 
 .word-list.hide-words .toggle-words span:last-of-type {
 	display: inline;
+}
+
+@media (max-width: 600px) {
+	form {
+		padding: 0;
+		border: none;
+		box-shadow: none;
+	}
+
+	.filters-container.open {
+		padding: 0 0 0 1em;
+		border: none;
+		border-left: 2px solid #c4aa8d;
+		border-radius: 0;
+	}
+
+	.action-buttons {
+		position: sticky;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		gap: 5px;
+		padding: 5px 0;
+		background-color: #e7dfd6;
+	}
 }
 
 @media (max-width: 360px) {
