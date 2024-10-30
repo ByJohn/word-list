@@ -26,7 +26,8 @@ let ui = {
 	$totalPages: document.getElementById('total-pages'),
 	$prevPage: document.getElementById('prev-page'),
 	$nextPage: document.getElementById('next-page'),
-	$toggleWords: document.getElementById('toggle-words'),
+	$toggleWords: document.getElementById('toggle-words'), //Toggle word visibility with a press or peak with a hold
+	toggleWordsMouseDownTime: null,
 
 	init: function () {
 		this.defaultFormValues = this.getFormValues();
@@ -62,7 +63,11 @@ let ui = {
 		this.$close.addEventListener('click', this.closeList.bind(this), false);
 		this.$prevPage.addEventListener('click', this.prevPage.bind(this), false);
 		this.$nextPage.addEventListener('click', this.nextPage.bind(this), false);
-		this.$toggleWords.addEventListener('click', this.toggleWords.bind(this), false);
+
+		this.$toggleWords.addEventListener('mousedown', this.toggleWordsDown.bind(this), false);
+		this.$toggleWords.addEventListener('touchstart', this.toggleWordsDown.bind(this), false);
+		this.$toggleWords.addEventListener('mouseup', this.toggleWordsUp.bind(this), false);
+		this.$toggleWords.addEventListener('touchend', this.toggleWordsUp.bind(this), false);
 
 		this.$wordListInner.addEventListener('click', this.toggleWordDetails.bind(this), false);
 	},
@@ -546,6 +551,23 @@ let ui = {
 	},
 	toggleWords: function () {
 		this.$wordList.classList.toggle('hide-words');
+	},
+	toggleWordsDown: function (e) {
+		e.preventDefault();
+
+		if (this.$wordList.classList.contains('hide-words')) {
+			this.toggleWordsMouseDownTime = Date.now();
+			this.$wordList.classList.remove('hide-words');
+		}
+	},
+	toggleWordsUp: function (e) {
+		e.preventDefault();
+
+		//If words are hidden or button pressed started less then 200 milliseconds ago
+		if (!this.toggleWordsMouseDownTime || Date.now() - this.toggleWordsMouseDownTime > 200) {
+			this.toggleWordsMouseDownTime = null;
+			this.$wordList.classList.toggle('hide-words');
+		}
 	},
 	toggleWordDetails: function () {
 		this.$wordList.classList.toggle('show-details');
