@@ -32,7 +32,9 @@ let ui = {
 	init: function () {
 		this.defaultFormValues = this.getFormValues();
 
-		if (!this.setFormFromURL()) {
+		this.setFormFromURL();
+
+		if (this.getSeed() === '') {
 			this.randomiseSeed();
 		}
 
@@ -448,7 +450,9 @@ let ui = {
 			this.$startPage.value = data.get('sp');
 		}
 
-		this.$seed.value = data.get('sc').trim().toLowerCase();
+		if (data.has('sc')) {
+			this.$seed.value = data.get('sc').trim().toLowerCase();
+		}
 
 		return true;
 	},
