@@ -3,6 +3,7 @@ Aeroplane,Abstract,Transport
 Aluminium,Concrete,Material
 Armour,Concrete,Tool
 Autumn,Abstract,
+Behaviour,Abstract,
 Bin,Concrete,Container
 Biscuit,Concrete,Food
 Bonnet,Concrete,Clothing
@@ -22,6 +23,8 @@ Glastonbury,Proper,Location
 Harbour,Concrete,Location
 Hob,Concrete,Furniture
 Holiday,Abstract,
+Humour,Abstract,
+Jeweller,Concrete,Person
 Jumper,Concrete,Clothing
 Labour,Abstract,
 Labourer,Concrete,Person
@@ -48,6 +51,7 @@ Sofa,Concrete,Furniture
 Stonehenge,Proper,Location
 Takeaway,Concrete,Food
 Tap,Concrete,Furniture
+Theatre,Concrete,Location
 Till,Concrete,
 Trainer,Concrete,Clothing
 Trousers,Concrete,Clothing

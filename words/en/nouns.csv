@@ -93,7 +93,6 @@ Beef,Concrete,Food
 Beer,Concrete,Food
 Beggar,Concrete,Person
 Beginner,Concrete,Person
-Behavior,Abstract,
 Beijing,Proper,Location|City
 Belief,Abstract,
 Bell,Concrete,Sound
@@ -532,7 +531,6 @@ Hot,Concrete,
 Hotel,Concrete,Location
 Hour,Abstract,Event
 House,Concrete,Location|Homonym
-Humor,Abstract,
 Ice,Concrete,Material
 Iceland,Proper,Location|Country
 Icicle,Concrete,
@@ -560,7 +558,6 @@ Jelly,Concrete,Food
 Jellyfish,Concrete,Animal
 Jet,Concrete,Transport
 Jewel,Concrete,Material
-Jeweler,Concrete,Person
 Joan,Proper,Person
 Jockey,Concrete,Person
 Join,Concrete,
@@ -638,7 +635,6 @@ Love,Abstract,Emotion
 Luck,Abstract,
 Lumberjack,Concrete,Person
 Lunch,Concrete,Food
-Lunchroom,Concrete,Location
 Machine,Concrete,
 Magazine,Concrete,
 Magic,Concrete,
@@ -1126,7 +1122,6 @@ Territory,Concrete,Location
 Test,Concrete,
 Texas,Proper,Location|State
 Texture,Concrete,
-Theater,Concrete,Location
 Theory,Abstract,
 Thief,Concrete,Person
 Thing,Concrete,
@@ -1189,7 +1184,7 @@ Undertaker,Concrete,Person
 Underwear,Concrete,Clothing
 Unicorn,Concrete,Animal
 Unit,Concrete,Furniture
-Univerity,Concrete,Location
+University,Concrete,Location
 Uranus,Proper,Location
 Vacuum,Concrete,Tool
 Valentine,Concrete,Person

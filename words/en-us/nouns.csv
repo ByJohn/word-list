@@ -3,6 +3,7 @@ Airplane,Concrete,Transport
 Aluminum,Concrete,Material
 Apartment,Concrete,Location
 Armor,Concrete,Tool
+Behavior,Abstract,
 Buck,Concrete,Homonym
 Cafeteria,Concrete,Location
 Candy,Concrete,Food
@@ -25,10 +26,13 @@ Flashlight,Concrete,
 Flavor,Concrete,
 Fry,Concrete,Food
 Harbor,Concrete,Location|Homonym
+Humor,Abstract,
 Hydrant,Concrete,Furniture
+Jeweler,Concrete,Person
 Labor,Abstract,
 Laborer,Concrete,Person
 Ladybug,Concrete,Animal
+Lunchroom,Concrete,Location
 Mail,Concrete,
 Mailbox,Concrete,Container
 Mailman,Concrete,Person
@@ -48,6 +52,7 @@ Stroller,Concrete,Transport
 Suspenders,Concrete,Clothing
 Sweater,Concrete,Clothing
 Takeout,Concrete,Food
+Theater,Concrete,Location
 Trash,Concrete,
 Truck,Concrete,Transport
 Trunk,Concrete,Transport
