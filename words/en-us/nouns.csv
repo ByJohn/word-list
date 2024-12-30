@@ -3,7 +3,7 @@ Airplane,Concrete,Transport
 Aluminum,Concrete,Material
 Apartment,Concrete,Location
 Armor,Concrete,Tool
-Buck,Concrete,
+Buck,Concrete,Homonym
 Cafeteria,Concrete,Location
 Candy,Concrete,Food
 Cent,Concrete,
@@ -19,12 +19,12 @@ Downtown,Concrete,Location
 Dryer,Concrete,Furniture
 Elevator,Concrete,Location
 Eraser,Concrete,Tool
-Fall,Abstract,
+Fall,Abstract,Homonym
 Faucet,Concrete,Furniture
 Flashlight,Concrete,
 Flavor,Concrete,
 Fry,Concrete,Food
-Harbor,Concrete,Location
+Harbor,Concrete,Location|Homonym
 Hydrant,Concrete,Furniture
 Labor,Abstract,
 Laborer,Concrete,Person
@@ -38,7 +38,7 @@ Organisation,Abstract,
 Railroad,Concrete,Transport
 Ranch,Concrete,Location
 Range,Concrete,Location
-Recess,Abstract,
+Recess,Abstract,Homonym
 Sidewalk,Concrete,Location
 Sneaker,Concrete,Clothing
 Soccer,Concrete,Sport
@@ -53,7 +53,7 @@ Truck,Concrete,Transport
 Trunk,Concrete,Transport
 Vacation,Abstract,
 Windshield,Concrete,Transport
-Yard,Concrete,Location
+Yard,Concrete,Location|Homonym
 Yarn,Concrete,Material
 Yellowstone,Proper,Location
 Zipper,Concrete,

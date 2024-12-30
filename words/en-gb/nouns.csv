@@ -33,9 +33,9 @@ Metre,Concrete,
 Motorbike,Concrete,Transport
 Nappy,Concrete,Clothing
 Organisation,Abstract,
-Path,Concrete,Location
+Path,Concrete,Location|Homonym
 Petrol,Concrete,
-Plaster,Concrete,Clothing
+Plaster,Concrete,Clothing|Homonym
 Postbox,Concrete,Container
 Postcode,Abstract,
 Postman,Concrete,Person
